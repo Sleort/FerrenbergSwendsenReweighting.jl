@@ -10,7 +10,7 @@ A Julia package for single and multiple histogram[^1] reweighting à la Ferrenbe
 
 Calculates the reweighting weights - the "reweights".
 
-[^1]: The nomenclature is kind misleading. No histogram is actually constructed in the reweighting procedure.
+[^1]: The nomenclature is kind of misleading. No histogram is actually constructed in the reweighting procedure.
 
 ## Installation
 
@@ -20,7 +20,7 @@ Calculates the reweighting weights - the "reweights".
 
 
 
-####Input:
+**Input:**
 
 * Single histogram: 
   * *The logarithm* of the probability weight of a configuration $x$ at parameter $\lambda$ (NB: can be a vector!), $s: (\lambda, x) \to \mathbb{R}$. 
@@ -30,7 +30,7 @@ Calculates the reweighting weights - the "reweights".
   * Like above, but now the input is a set of series of data $\{\{x\}_i\}$ obtained from samplings at $\{\lambda_i\}$. 
   * We also need to provide information on the integrated autocorrelation time for an observable $O$ for each series $O$, $\tau_\text{int}(O, \{x\}_i)$. Alternatively, if no input is given, the autocorrelation time of $O = s$ is used.
 
-####Output:
+**Output:**
 
 A vector of weights associated with the datapoints. (Or vector of vector of weights, in the case of multiple histograms)
 
@@ -39,9 +39,9 @@ A vector of weights associated with the datapoints. (Or vector of vector of weig
 ### Single histogram reweighting
 
 Given a set of samples $\{x\}_{\lambda_0}$ obtained from some distribution parametrized by $\lambda_0$ (e.g. by a Monte Carlo simulation), we want the (best) set of associated weights $\{w\}_\lambda$ we have to use to get the correct expectation value of observable $O$ at (arbitrary) $\lambda$. In other words, we want to find $w(\lambda, x)$ such that
-$$
+```math
 \langle O \rangle_\lambda = \frac{\sum_x w(\lambda, x) O(x)}{\sum_x w(\lambda, x)}
-$$
+```
 Note that by construction $w(\lambda_0, x) = \text{constant}$.
 
 Let the probability weight of a state $x$ at parameter $\lambda$ be given by 
