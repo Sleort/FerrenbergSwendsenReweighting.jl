@@ -17,7 +17,7 @@ Calculates the reweighting weights - the "reweights".
 ## Usage/examples
 
 
-
+***For some strange reason Github doesn't support Latex style math... The stuff below will be fixed later/moved to documentation...***
 
 
 **Input:**
@@ -39,9 +39,9 @@ A vector of weights associated with the datapoints. (Or vector of vector of weig
 ### Single histogram reweighting
 
 Given a set of samples $\{x\}_{\lambda_0}$ obtained from some distribution parametrized by $\lambda_0$ (e.g. by a Monte Carlo simulation), we want the (best) set of associated weights $\{w\}_\lambda$ we have to use to get the correct expectation value of observable $O$ at (arbitrary) $\lambda$. In other words, we want to find $w(\lambda, x)$ such that
-```math
+$$
 \langle O \rangle_\lambda = \frac{\sum_x w(\lambda, x) O(x)}{\sum_x w(\lambda, x)}
-```
+$$
 Note that by construction $w(\lambda_0, x) = \text{constant}$.
 
 Let the probability weight of a state $x$ at parameter $\lambda$ be given by 
