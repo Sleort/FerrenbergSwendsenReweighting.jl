@@ -1,3 +1,5 @@
+__precompile__()
+
 #=
 INPUT:
     x: Vector of data (may themselves be vectors) OR xs: A vector of such vectors of data
@@ -21,6 +23,10 @@ OUTPUT:
         * Calculation of integrated autocorrelation time (own package?) - include it as a keyword argument
 =#
 
+##########################################
+include("AutocorrelationTime.jl")
+##########################################
+
 
 
 module FerrenbergSwendsenReweighting
@@ -28,7 +34,6 @@ module FerrenbergSwendsenReweighting
 import StatsBase: AbstractWeights
 export AbstractReweights, SingleHistogramReweights, MultipleHistogramReweights,
     reweights, reweights!
-
 
 ##################################
 # Common for both single and multiple histograms:
@@ -38,10 +43,6 @@ boltzmann(β,E) = -β*E
 reweights(args...; kwargs...) = reweights(boltzmann, args...; kwargs...)
 reweights!(args...; kwargs...) = reweights!(boltzmann, args...; kwargs...) #Default is Boltzmann distribution
 
-
-
 include("SingleHistogramReweighting.jl")
 include("MultipleHistogramReweighting.jl")
-
-
 end # module

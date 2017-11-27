@@ -1,10 +1,7 @@
-
-# module AutocorrelationTime
+module AutocorrelationTime
 
 import StatsBase:autocor
-# export integrated_autocorrelation_time
-
-
+export integrated_autocorrelation_time
 
 """
 Find the integrated autocorrelation time of a vector of measurements
@@ -38,9 +35,4 @@ function integrated_autocorrelation_time(samples::Vector)
 end
 
 
-
-
-
-
-
-# end # module
+end # module
