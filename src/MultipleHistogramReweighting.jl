@@ -71,6 +71,8 @@ function Reweights{T}(logprob::Function, λs::AbstractVector, xs::AbstractVector
                     τints::AbstractVector{<:Real} = [τint([autocorrelation_observable(λs[i],x) for x ∈ xs[i]]) for i=1:length(λs)]) where T<:Real
     δlogprob = find_δlogprob(logprob, λs, xs, τints; WeightType=T)
     x = chain(xs...)
-    w = similar(δlogprob)
-    return Reweights{T}(logprob, δlogprob, x, w)
+
+    T1 = typeof(δlogprob)
+    T2 = typeof(x)
+    return Reweights{T1,T2}(logprob, δlogprob, x)
 end
