@@ -5,8 +5,10 @@ using Base.Test
 @test begin
     λ0 = 0.0
     x0 = randn(100)
-    λ = 1.0
-    typeof(reweights(λ0, x0, λ)) <: SingleHistogramReweights
+    rw = Reweights(λ0, x0)
+    w = ones(x0); normalize!(w,1)
+
+    rw(λ0) == w #Flat distribution
 end
 
 
@@ -14,9 +16,8 @@ end
 @test begin
     λ0 = 0.0
     x0 = randn(100)
-    λ = 1.0
-    rw = reweights(λ0, x0, λ, WeightType=Float32)
-    eltype(rw) == Float32
+    rw = Reweights{Float32}(λ0, x0)
+    eltype(rw(1.0)) == Float32
 end
 
 
@@ -24,8 +25,7 @@ end
 @test begin
     λ0 = 0.0
     x0 = randn(100)
-    λ = 1.0
-    logprob(λx, x) = λx*x^2
-    reweights(logprob, λ0, x0, λ)
+    logprob(λ, x) = λ*x^2
+    rw = Reweights(logprob, λ0, x0)
     true
 end

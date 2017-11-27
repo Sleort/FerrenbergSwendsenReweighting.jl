@@ -22,12 +22,12 @@ Calculates the reweighting weights - the "reweights".
 
 **Input:**
 
-* Single histogram: 
-  * *The logarithm* of the probability weight of a configuration $x$ at parameter $\lambda$ (NB: can be a vector!), $s: (\lambda, x) \to \mathbb{R}$. 
-  * A series of data $\{x\}$ (in the form of a vector) sampled from the distribution given by $s$ at parameter $\lambda_0$. 
+* Single histogram:
+  * *The logarithm* of the probability weight of a configuration $x$ at parameter $\lambda$ (NB: can be a vector!), $s: (\lambda, x) \to \mathbb{R}$.
+  * A series of data $\{x\}$ (in the form of a vector) sampled from the distribution given by $s$ at parameter $\lambda_0$.
   * The parameter $\lambda$ which we want to "reweight to".
-* Multiple histograms: 
-  * Like above, but now the input is a set of series of data $\{\{x\}_i\}$ obtained from samplings at $\{\lambda_i\}$. 
+* Multiple histograms:
+  * Like above, but now the input is a set of series of data $\{\{x\}_i\}$ obtained from samplings at $\{\lambda_i\}$.
   * We also need to provide information on the integrated autocorrelation time for an observable $O$ for each series $O$, $\tau_\text{int}(O, \{x\}_i)$. Alternatively, if no input is given, the autocorrelation time of $O = s$ is used.
 
 **Output:**
@@ -44,7 +44,7 @@ $$
 $$
 Note that by construction $w(\lambda_0, x) = \text{constant}$.
 
-Let the probability weight of a state $x$ at parameter $\lambda$ be given by 
+Let the probability weight of a state $x$ at parameter $\lambda$ be given by
 $$
 p(\lambda, x) \propto \exp(s(\lambda, x))
 $$
@@ -68,9 +68,9 @@ $$
 
 #### Technicalities
 
-* In solving the nonlinear equation, the scale is fixed such that $Z_{\lambda_1} = 1$. 
+* In solving the nonlinear equation, the scale is fixed such that $Z_{\lambda_1} = 1$.
 
-* To avoid numerical overflow, the equation solved is actually 
+* To avoid numerical overflow, the equation solved is actually
 
 * $$
   1 = \sum_i \sum_{x_i } \frac{{g_i}^{-1}}{\sum_j N_j {g_j}^{-1} \exp[s(\lambda_j, x_i) - s(\lambda, x_i) - \log Z_{\lambda_j}  + \log Z_\lambda]} \quad \forall \lambda \in \{\lambda_i\}
@@ -79,7 +79,3 @@ $$
   This guarantees that at least the $i = j$ terms give a reasonably large, non-zero contribution to the sum in the denominator. On the other hand, an numerical "infinite" exponential in the denominator simply leads to a zero contribution to the overall sum, thus preventing any overflow instability.
 
 * The output weights are scaled such that the largest weight is of unit size.
-
-
-
-
