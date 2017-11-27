@@ -1,8 +1,8 @@
 
-module AutocorrelationTime
+# module AutocorrelationTime
 
 import StatsBase:autocor
-export integrated_autocorrelation_time
+# export integrated_autocorrelation_time
 
 
 
@@ -43,4 +43,4 @@ end
 
 
 
-end # module
+# end # module
