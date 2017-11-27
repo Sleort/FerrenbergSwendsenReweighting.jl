@@ -10,7 +10,7 @@ SingleHistogramReweights(vs::V, s::S=sum(vs)) where {S<:Real, V<:AbstractVector{
 "Find single histogram reweighting weights"
 function reweights(logprob::Function, λ0, x0::AbstractVector, λ; WeightType=Float64)
     w = Vector{WeightType}(length(x0)) #Allocate weight storage.    AVOID EXPLICIT Float64 HERE?
-    reweights!(logprob, w, x0, λ0, λ)
+    reweights!(logprob, w, λ0, x0, λ)
 end
 
 "In-place single histogram reweighting weights"
