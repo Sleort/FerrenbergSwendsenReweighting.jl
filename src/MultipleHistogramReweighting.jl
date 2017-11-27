@@ -11,7 +11,8 @@ Options:
 
 import IterTools: chain
 using NLsolve
-import AutocorrelationTime: integrated_autocorrelation_time
+# import AutocorrelationTime: integrated_autocorrelation_time
+include("AutocorrelationTime.jl"); using AutocorrelationTime
 const τint = integrated_autocorrelation_time
 
 
@@ -114,7 +115,7 @@ reweights!(logprob::Function, rw::MultipleHistogramReweights, args... ; kwargs..
 # λs = linspace(10,1,series)
 # τints = ones(series)
 # xs = [0.1*i .+ 0.01.*randn(10000+i) for i = 1:series]
-# rw = reweights(τints, xs, λs, 10.0)
+# rw = reweights(λs, xs, 10.0, τints=τints)
 # rw = reweights!(rw, xs, 10.0)
 
 
