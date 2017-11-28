@@ -66,7 +66,7 @@ If no integrated autocorrelation times are given:
     The autocorrelation times of the `autocorrelation_observable(λ,x)` function is used!
 If no `autocorrelation_observable` is given, `autocorrelation_observable=logprob`
 """
-function Reweights{T}(logprob::Function, λs::AbstractVector, xs::AbstractVector{<:AbstractVector};
+function ReweightObj{T}(logprob::Function, λs::AbstractVector, xs::AbstractVector{<:AbstractVector};
                     autocorrelation_observable::Function = logprob,
                     τints::AbstractVector{<:Real} = [τint([autocorrelation_observable(λs[i],x) for x ∈ xs[i]]) for i=1:length(λs)]) where T<:Real
     δlogprob = find_δlogprob(logprob, λs, xs, τints; WeightType=T)
@@ -74,5 +74,5 @@ function Reweights{T}(logprob::Function, λs::AbstractVector, xs::AbstractVector
 
     T1 = typeof(δlogprob)
     T2 = typeof(x)
-    return Reweights{T1,T2}(logprob, δlogprob, x)
+    return ReweightObj{T1,T2}(logprob, δlogprob, x)
 end
