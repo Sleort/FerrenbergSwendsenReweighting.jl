@@ -76,7 +76,7 @@ evaluate!(rw, p2, weights) #Find the weights at some parameter p2, evaluated in-
 
 
 
-
+## Old Readme + background (needs to be fixed)
 
 ***For some strange reason Github doesn't support Latex style math... The stuff below will be fixed later/moved to documentation...***
 
