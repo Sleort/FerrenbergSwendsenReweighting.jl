@@ -12,9 +12,70 @@ Calculates the reweighting weights - the "reweights".
 
 [^1]: The nomenclature is kind of misleading. No histogram is actually constructed in the reweighting procedure.
 
-## Installation
+1. [Alan M. Ferrenberg and Robert H. Swendsen "New Monte Carlo technique for studying phase transitions", Physical Review Letters **61** pp. 2635-2638 (1988)](http://dx.doi.org/10.1103/PhysRevLett.61.2635)
+2. [Alan M. Ferrenberg and Robert H. Swendsen "Optimized Monte Carlo data analysis", Physical Review Letters **63** pp. 1195-1198 (1989)](http://dx.doi.org/10.1103/PhysRevLett.63.1195)
 
-## Usage/examples
+## Installation
+Until the package gets properly registered:
+```julia
+Pkg.clone("https://github.com/Sleort/FerrenbergSwendsenReweighting.jl")
+```
+
+## Usage
+```julia
+using FerrenbergSwendsenReweighting #Load package
+```
+Say you have a function
+```julia
+logprob(parameter, state)
+```
+mapping from a `parameter` (e.g. temperature) and a `state` (e.g. energy, or spin configuration, or...) to the *logarithm* of the probability weight of the `state` at that `parameter`. You also have a set (vector) of `sampled_states` sampled according to the distribution given by `exp(logprob(p0, state))` at parameter `p0`. Then we can find the relative `weights` of the `sampled_states` at some other parameter `p` by
+```julia
+rw = ReweightObj(logprob, p0, sampled_states) #Make reweighting object
+weights = evaluate(rw, p1) #Find the weights at some parameter p1
+evaluate!(rw, p2, weights) #Find the weights at some parameter p2, evaluated in-place (overwriting `weights`)
+```
+
+
+If no `logprob::Function` is provided, i.e.
+
+```julia
+rw = ReweightObj(p0, sampled_states) #Make reweighting object assuming the Boltzmann distribution
+```
+the Boltzmann weight is assumed, i.e. `parameter = 1/T`, `state = energy` and `logprob(parameter, state) = -parameter*state` will be used.
+
+
+
+If `p0` is a subtype of `AbstractVector` *and* `sampled_states` a subtype of `AbstractVector{<:AbstractVector}` ("vector of vectors"), it is assumed that we're dealing with several simulation series `(p0[1],sampled_states[1]),(p0[2],sampled_states[2]),... ` and *multiple histogram reweighting* will be employed. If not, *single histogram reweighting* is used.
+
+
+
+In case of multiple histogram reweighting, we may provide a set of integrated autocorrelation times for each simulation series. If that is not done, the autocorrelation of the `autocorrelation_observable(parameter,state)` will be used. The default here is `autocorrelation_observable= logprob`:
+
+```julia
+typeof(sampled_states) <: AbstractVector{<:AbstractVector} #true
+length(p0) == length(sampled_states) == 2 #true
+
+rw = ReweightObj(p0, sampled_states) #Basic Boltzmann distribution reweighting
+rw = ReweightObj(logprob, p0, sampled_states) #logprob distribution reweighting
+rw = ReweightObj(logprob, p0, sampled_states; τints=ones(2)) #logprob distribution reweighting, all integrated autocorrelation times set to 1
+myobs(parameter,state) = parameter*state^2
+rw = ReweightObj(logprob, p0, sampled_states; autocorrelation_observable = myobs) #logprob distribution reweighting, autocorrelation time according to the myobs observable
+
+#The rest proceeds as before...
+weights = evaluate(rw, p1) #Find the weights at some parameter p1
+evaluate!(rw, p2, weights) #Find the weights at some parameter p2, evaluated in-place (overwriting `weights`)
+```
+
+
+
+##Examples
+
+*Work in progress*
+
+
+
+
 
 
 ***For some strange reason Github doesn't support Latex style math... The stuff below will be fixed later/moved to documentation...***
@@ -78,4 +139,4 @@ $$
 
   This guarantees that at least the $i = j$ terms give a reasonably large, non-zero contribution to the sum in the denominator. On the other hand, an numerical "infinite" exponential in the denominator simply leads to a zero contribution to the overall sum, thus preventing any overflow instability.
 
-* The output weights are scaled such that the largest weight is of unit size.
+* The output weights are scaled such `sum(weights) = length(weights)`.
