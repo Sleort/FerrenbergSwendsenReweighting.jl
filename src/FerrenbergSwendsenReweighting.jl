@@ -37,6 +37,7 @@ struct Reweights{T1,T2}
     end
 end
 
+Base.length(rw::Reweights) = length(rw.δlogprob)
 
 
 """Return the "Reweights" at parameter λ"""
