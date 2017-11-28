@@ -6,9 +6,7 @@ using Base.Test
     λ0 = 0.0
     x0 = randn(100)
     rw = Reweights(λ0, x0)
-    w = ones(x0); normalize!(w,1)
-
-    rw(λ0) == w #Flat distribution
+    rw(λ0) == ones(x0) #Flat distribution
 end
 
 

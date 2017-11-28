@@ -48,7 +48,8 @@ function (rw::Reweights{T1,T2})(w::T1, λ) where {T1,T2}
     end
     mw = maximum(w)
     w .= exp.(w .- mw) #Make sure the weights are maximum 1 (avoid overflow)
-    normalize!(w, 1) #1-norm, such that sum(w) = 1
+    z = sum(w)/length(w)
+    w ./= z #Normalized such that sum(w) = length(w)
     return w
 end
 
