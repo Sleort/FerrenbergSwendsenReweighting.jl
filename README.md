@@ -69,7 +69,7 @@ evaluate!(rw, p2, weights) #Find the weights at some parameter p2, evaluated in-
 
 
 
-##Examples
+## Examples
 
 *Work in progress*
 
