@@ -24,25 +24,22 @@ include("AutocorrelationTime.jl")
 module FerrenbergSwendsenReweighting
 
 using ArgCheck
-export Reweights
+export ReweightObj, evaluate, evaluate!
 
-struct Reweights{T1,T2}
+struct ReweightObj{T1,T2}
     logprob::Function #exp(logprob(λ,x[i])) is the probability weight of sample x[i]
     δlogprob::T1 #Vector of shifts in logprob
     x::T2 #Input values/samples
 
-    function Reweights{T1,T2}(logprob::Function, δlogprob::T1, x::T2) where {T1<:AbstractVector, T2}
+    function ReweightObj{T1,T2}(logprob::Function, δlogprob::T1, x::T2) where {T1<:AbstractVector, T2}
         @argcheck length(δlogprob) == length(x)
         new(logprob, δlogprob, x)
     end
 end
 
-Base.length(rw::Reweights) = length(rw.δlogprob)
+Base.length(rw::ReweightObj) = length(rw.δlogprob)
 
-
-"""Return the "Reweights" at parameter λ"""
-#In place calculation HOW TO MAKE THIS NICE LOOKING WITH EXCLAMATION MARK??
-function (rw::Reweights{T1,T2})(w::T1, λ) where {T1,T2}
+function evaluate!(rw::ReweightObj{T1,T2}, λ, w::T1) where {T1,T2}
     @argcheck length(rw.x) == length(w)
     for (i,xi) ∈ enumerate(rw.x)
         w[i] = rw.logprob(λ, xi) + rw.δlogprob[i]
@@ -54,11 +51,12 @@ function (rw::Reweights{T1,T2})(w::T1, λ) where {T1,T2}
     return w
 end
 
-#Out-of place:
-function (rw::Reweights)(λ)
+function evaluate(rw::ReweightObj, λ)
     w = similar(rw.δlogprob)
-    rw(w, λ)
+    evaluate!(rw, λ, w)
+    return w
 end
+
 
 
 ##################################
@@ -68,10 +66,10 @@ include("MultipleHistogramReweighting.jl")
 
 ##################################
 #Default type is Float64!
-Reweights(args...; kwargs...) = Reweights{Float64}(args...; kwargs...)
+ReweightObj(args...; kwargs...) = ReweightObj{Float64}(args...; kwargs...)
 
 "Default reweighting to Boltzmann distribution, i.e. assuming x0=E, λ=-β"
 boltzmann(β,E) = -β*E
-Reweights{T}(args...; kwargs...) where T = Reweights{T}(boltzmann, args...; kwargs...)
+ReweightObj{T}(args...; kwargs...) where T = ReweightObj{T}(boltzmann, args...; kwargs...)
 
 end # module
