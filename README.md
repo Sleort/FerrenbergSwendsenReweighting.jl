@@ -6,11 +6,12 @@
 
 [![codecov.io](http://codecov.io/github/Sleort/FerrenbergSwendsenReweighting.jl/coverage.svg?branch=master)](http://codecov.io/github/Sleort/FerrenbergSwendsenReweighting.jl?branch=master)
 
-A Julia package for single and multiple histogram[^1] reweighting à la Ferrenberg and Swendsen.
+A Julia package for single and multiple histogram<sup>[1](#footnote1)</sup> reweighting à la Ferrenberg and Swendsen.
 
 Calculates the reweighting weights - the "reweights".
 
-[^1]: The nomenclature is kind of misleading. No histogram is actually constructed in the reweighting procedure.
+<a name="footnote1">1</a>: The nomenclature is kind of misleading. No histogram is actually constructed in the reweighting procedure.
+
 
 1. [Alan M. Ferrenberg and Robert H. Swendsen "New Monte Carlo technique for studying phase transitions", Physical Review Letters **61** pp. 2635-2638 (1988)](http://dx.doi.org/10.1103/PhysRevLett.61.2635)
 2. [Alan M. Ferrenberg and Robert H. Swendsen "Optimized Monte Carlo data analysis", Physical Review Letters **63** pp. 1195-1198 (1989)](http://dx.doi.org/10.1103/PhysRevLett.63.1195)
