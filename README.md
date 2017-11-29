@@ -51,16 +51,19 @@ If `p0` is a subtype of `AbstractVector` *and* `sampled_states` a subtype of `Ab
 
 
 
-In case of multiple histogram reweighting, we may provide a set of integrated autocorrelation times for each simulation series. If that is not done, the autocorrelation of the `autocorrelation_observable(parameter,state)` will be used. The default here is `autocorrelation_observable= logprob`:
+In case of multiple histogram reweighting, we may provide a set of integrated autocorrelation times for each simulation series. If that is not done, the autocorrelation of the `autocorrelation_observable(parameter,state)` will be used. The default here is `autocorrelation_observable = logprob`:
 
 ```julia
 typeof(sampled_states) <: AbstractVector{<:AbstractVector} #true
 length(p0) == length(sampled_states) == 2 #true
 
 rw = ReweightObj(p0, sampled_states) #Basic Boltzmann distribution reweighting
+# or
 rw = ReweightObj(logprob, p0, sampled_states) #logprob distribution reweighting
+# or
 rw = ReweightObj(logprob, p0, sampled_states; τints=ones(2)) #logprob distribution reweighting, all integrated autocorrelation times set to 1
-myobs(parameter,state) = parameter*state^2
+# or
+myobs(parameter,state) = parameter*state^2 #A custom observable
 rw = ReweightObj(logprob, p0, sampled_states; autocorrelation_observable = myobs) #logprob distribution reweighting, autocorrelation time according to the myobs observable
 
 #The rest proceeds as before...
