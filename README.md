@@ -15,7 +15,7 @@ Calculates the reweighting weights - the "reweights".
 2. [Alan M. Ferrenberg and Robert H. Swendsen "Optimized Monte Carlo data analysis", Physical Review Letters **63** pp. 1195-1198 (1989)](http://dx.doi.org/10.1103/PhysRevLett.63.1195)
 
 ## Installation
-Until the package gets properly registered:
+Sice this package is not (yet) registered, you must clone it. To clone it, use
 ```julia
 Pkg.clone("https://github.com/Sleort/FerrenbergSwendsenReweighting.jl")
 ```
