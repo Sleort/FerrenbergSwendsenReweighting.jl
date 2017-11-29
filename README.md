@@ -1,10 +1,8 @@
 # FerrenbergSwendsenReweighting.jl
 
 [![Build Status](https://travis-ci.org/Sleort/FerrenbergSwendsenReweighting.jl.svg?branch=master)](https://travis-ci.org/Sleort/FerrenbergSwendsenReweighting.jl)
-
-[![Coverage Status](https://coveralls.io/repos/Sleort/FerrenbergSwendsenReweighting.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/Sleort/FerrenbergSwendsenReweighting.jl?branch=master)
-
-[![codecov.io](http://codecov.io/github/Sleort/FerrenbergSwendsenReweighting.jl/coverage.svg?branch=master)](http://codecov.io/github/Sleort/FerrenbergSwendsenReweighting.jl?branch=master)
+[![Build status](https://ci.appveyor.com/api/projects/status/lx4l0r1eu9w79oe3?svg=true)](https://ci.appveyor.com/project/Sleort/ferrenbergswendsenreweighting-jl)
+[![Coverage Status](https://coveralls.io/repos/github/Sleort/FerrenbergSwendsenReweighting.jl/badge.svg?branch=master)](https://coveralls.io/github/Sleort/FerrenbergSwendsenReweighting.jl?branch=master)
 
 A Julia package for single and multiple histogram<sup>[1](#footnote1)</sup> reweighting à la Ferrenberg and Swendsen.
 
