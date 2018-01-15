@@ -14,11 +14,6 @@ OUTPUT:
         * Check order of arguments
 =#
 
-##########################################
-include("AutocorrelationTime.jl")
-##########################################
-
-
 
 
 module FerrenbergSwendsenReweighting
@@ -26,12 +21,12 @@ module FerrenbergSwendsenReweighting
 using ArgCheck
 export ReweightObj, evaluate, evaluate!
 
-struct ReweightObj{T1,T2}
-    logprob::Function #exp(logprob(λ,x[i])) is the probability weight of sample x[i]
+struct ReweightObj{F,T1,T2}
+    logprob::F #The probability weight of sample x[i] is exp(logprob(λ,x[i]))
     δlogprob::T1 #Vector of shifts in logprob
     x::T2 #Input values/samples
 
-    function ReweightObj{T1,T2}(logprob::Function, δlogprob::T1, x::T2) where {T1<:AbstractVector, T2}
+    function ReweightObj{F,T1,T2}(logprob::F, δlogprob::T1, x::T2) where {F<:Function, T1<:AbstractVector, T2}
         @argcheck length(δlogprob) == length(x)
         new(logprob, δlogprob, x)
     end
@@ -39,7 +34,7 @@ end
 
 Base.length(rw::ReweightObj) = length(rw.δlogprob)
 
-function evaluate!(rw::ReweightObj{T1,T2}, λ, w::T1) where {T1,T2}
+function evaluate!(rw::ReweightObj{F,T1,T2}, λ, w::T1) where {F,T1,T2}
     @argcheck length(rw.x) == length(w)
     for (i,xi) ∈ enumerate(rw.x)
         w[i] = rw.logprob(λ, xi) + rw.δlogprob[i]

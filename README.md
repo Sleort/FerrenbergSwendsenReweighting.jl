@@ -91,11 +91,11 @@ evaluate!(rw, p2, weights) #Find the weights at some parameter p2, evaluated in-
   * The parameter $\lambda$ which we want to "reweight to".
 * Multiple histograms:
   * Like above, but now the input is a set of series of data $\{\{x\}_i\}$ obtained from samplings at $\{\lambda_i\}$.
-  * We also need to provide information on the integrated autocorrelation time for an observable $O$ for each series $O$, $\tau_\text{int}(O, \{x\}_i)$. Alternatively, if no input is given, the autocorrelation time of $O = s$ is used.
+  * We also need to provide information on the effective sample size factor (ESS) (proportional to the inverse integrated autocorrelation time) for an observable $O$ for each series $O$, $\text{ESS}(O, \{x\}_i)$. Alternatively, if no input is given, the ESS of $O = s$ is used.
 
 **Output:**
 
-A vector of weights associated with the datapoints. (Or vector of vector of weights, in the case of multiple histograms)
+A vector of weights associated with the data points. (Or vector of vector of weights, in the case of multiple histograms)
 
 ## Equations
 
@@ -118,7 +118,7 @@ $$
 
 ### Multiple histogram reweighting
 
-Now we have a set of set of samples $\{\{x\}_{\lambda_i}\}$, each obtained at some $\lambda_i$. According to Ferrenberg and Swendsen, the optimal weights can be found by solving the nonlinear set of equations given by
+Now we have a set of set of samples $\{\{x\}_{\lambda_i}\}​$, each obtained at some $\lambda_i​$. According to Ferrenberg and Swendsen, the optimal weights can be found by solving the nonlinear set of equations given by
 $$
 1 = \sum_i \sum_{x_i } \frac{{g_i}^{-1}\exp[s(\lambda, x_i) - \log Z_\lambda ]}{\sum_j N_j {g_j}^{-1} \exp[s(\lambda_j, x_i) - \log Z_{\lambda_j}]} \quad \forall \lambda \in \{\lambda_i\}
 $$
