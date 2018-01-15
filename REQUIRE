@@ -3,4 +3,4 @@ StatsBase
 ArgCheck
 NLsolve
 IterTools
-
+MCMCDiagnostics
