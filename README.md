@@ -59,10 +59,10 @@ rw = ReweightObj(p0, sampled_states) #Basic Boltzmann distribution reweighting
 # or
 rw = ReweightObj(logprob, p0, sampled_states) #logprob distribution reweighting
 # or
-rw = ReweightObj(logprob, p0, sampled_states; τints=ones(2)) #logprob distribution reweighting, all integrated autocorrelation times set to 1
+rw = ReweightObj(logprob, p0, sampled_states; essfs=ones(2)) #logprob distribution reweighting, all effective sampling size (ESS) factors set to 1
 # or
 myobs(parameter,state) = parameter*state^2 #A custom observable
-rw = ReweightObj(logprob, p0, sampled_states; autocorrelation_observable = myobs) #logprob distribution reweighting, autocorrelation time according to the myobs observable
+rw = ReweightObj(logprob, p0, sampled_states; autocorrelation_observable = myobs) #logprob distribution reweighting, ESS factor according to the myobs observable
 
 #The rest proceeds as before...
 weights = evaluate(rw, p1) #Find the weights at some parameter p1
