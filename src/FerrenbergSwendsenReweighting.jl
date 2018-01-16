@@ -19,6 +19,7 @@ OUTPUT:
 module FerrenbergSwendsenReweighting
 
 using ArgCheck
+import IterTools
 export ReweightObj, evaluate, evaluate!
 
 struct ReweightObj{F,T1,T2}
@@ -34,6 +35,21 @@ end
 
 Base.length(rw::ReweightObj) = length(rw.δlogprob)
 
+
+#Helping function to find the ranges the input vectors make up
+#Not very elegant, but it works...
+function chain_ranges(chain)
+    ranges = []
+    i = 1
+    for l ∈ length.(chain.xss) #Length of each chained component
+        j = i + l - 1
+        push!(ranges, i:j)
+        i = j + 1
+    end
+    return ranges
+end
+
+
 function evaluate!(rw::ReweightObj{F,T1,T2}, λ, w::T1) where {F,T1,T2}
     @argcheck length(rw.x) == length(w)
     for (i,xi) ∈ enumerate(rw.x)
@@ -43,13 +59,18 @@ function evaluate!(rw::ReweightObj{F,T1,T2}, λ, w::T1) where {F,T1,T2}
     w .= exp.(w .- mw) #Make sure the weights are maximum 1 (avoid overflow)
     z = sum(w)/length(w)
     w ./= z #Normalized such that sum(w) = length(w)
+
+    if rw.x isa IterTools.Chain
+        w = [w[r] for r ∈ chain_ranges(rw.x)] #Split the weights to a vector of vectors to match the original data!
+    end
+
     return w
 end
+
 
 function evaluate(rw::ReweightObj, λ)
     w = similar(rw.δlogprob)
     evaluate!(rw, λ, w)
-    return w
 end
 
 
